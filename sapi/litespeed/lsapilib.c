@@ -2031,9 +2031,11 @@ ssize_t gsendfile( int fdOut, int fdIn, off_t * off, size_t size )
 
 ssize_t LSAPI_sendfile_r( LSAPI_Request * pReq, int fdIn, off_t* off, size_t size )
 {
-    struct lsapi_packet_header * pHeader = pReq->m_respPktHeader;
+    struct lsapi_packet_header * pHeader;
     if ( !pReq || (pReq->m_fd == -1) || fdIn == -1 )
         return -1;
+    pHeader = pReq->m_respPktHeader;
+	
     if ( pReq->m_reqState & LSAPI_ST_RESP_HEADER )
     {
         LSAPI_FinalizeRespHeaders_r( pReq );
